@@ -1,0 +1,84 @@
+version: '3.4'
+
+services:
+  khachhang.api:
+    image: khachhangapi
+    build:
+      context: .
+      dockerfile: ../Services/KhachHang.API/KhachHang.API/Dockerfile
+    environment:
+      - ConnectionString=Server=sql.data;Initial Catalog=QL_BANMAYTINH_KhachHang;User Id=sa;Password=Password1
+    ports:
+      - "8001:80"
+    restart: on-failure
+    depends_on:
+      - sql.data
+
+  sanpham.api:
+    image: sanphamapi
+    build:
+      context: .
+      dockerfile: ../Services/SanPham.API/SanPham.API/Dockerfile
+    environment:
+      - ConnectionString=Server=sql.data;Initial Catalog=QL_BANMAYTINH_SanPham;User Id=sa;Password=Password1
+    ports:
+      - "8002:80"
+    restart: on-failure
+    depends_on:
+      - sql.data
+
+  donhang.api:
+    image: donhangapi
+    build:
+      context: .
+      dockerfile: ../Services/DonHang.API/DonHang.API/Dockerfile
+    environment:
+      - ConnectionString=Server=sql.data;Initial Catalog=QL_BANMAYTINH_DonHang;User Id=sa;Password=Password1
+    ports:
+      - "8003:80"
+    restart: on-failure
+    depends_on:
+      - sql.data
+  
+  phieunhap.api:
+    image: phieunhapapi
+    build:
+      context: .
+      dockerfile: ../Services/PhieuNhap.API/PhieuNhap.API/Dockerfile
+    environment:
+      - ConnectionString=Server=sql.data;Initial Catalog=QL_BANMAYTINH_PhieuNhap;User Id=sa;Password=Password1
+    ports:
+      - "8004:80"
+    restart: on-failure
+    depends_on:
+      - sql.data
+
+
+  ql_banmaytinh_main:
+    image: qlbanmaytinhmain
+    build:
+      context: .
+      dockerfile: QL_BanMayTinh_Main\Dockerfile
+    environment:
+      - KhachHangUrl=http://khachhang.api
+      - SanPhamUrl=http://sanpham.api
+      - DonHangUrl=http://donhang.api
+      - PhieuNhapUrl=http://phieunhap.api
+    ports:
+      - "8000:80"
+    restart: on-failure
+    depends_on:
+      - khachhang.api
+      - sanpham.api
+      - donhang.api
+      - phieunhap.api
+
+
+
+  sql.data:
+    image: microsoft/mssql-server-windows-express
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=Password1
+      - ACCEPT_EULA=Y

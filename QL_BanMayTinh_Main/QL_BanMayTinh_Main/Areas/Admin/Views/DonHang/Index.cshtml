@@ -1,0 +1,148 @@
+﻿@model X.PagedList.IPagedList<QL_BanMayTinh_Main.EF.Donhang>
+@using X.PagedList.Mvc.Core;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Quản lí đơn hàng</h2>
+<br />
+@using (Html.BeginForm("Index", "DonHang", FormMethod.Get))
+{
+    <p>
+        Nhập tên người đặt hàng: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </p>
+    <br />
+}
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Successfully edit")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Sửa thông tin đơn hàng: @TempData["madh"] thành công
+        </div>
+    }
+    else
+    if (TempData["notice"].ToString() == "Successfully delete")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Xóa thông tin đơn hàng: @TempData["madh"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Have result")
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "No result")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+}
+
+<p>
+    <button class="btn btn-warning" onclick="location.href='@Url.Action("Index")';return false;">Tải lại</button>
+</p>
+
+<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+        <tr>
+            <th width="6%">
+                @Html.ActionLink("Mã đơn hàng", "Index", new { sortOrder = ViewBag.MaDHSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Tài khoản", "Index", new { sortOrder = ViewBag.TaiKhoanSortParm })
+            </th>
+            <th width="7%">
+                @Html.ActionLink("Ngày tạo ĐH", "Index", new { sortOrder = ViewBag.NgayTaoDHSortParm })
+            </th>
+            <th width="8%">
+                Tên người đặt hàng
+            </th>
+            <th width="7%">
+                SĐT đặt hàng
+            </th>
+            <th width="12%">
+                Địa chỉ đặt hàng
+            </th>
+            <th>
+                Email đặt hàng
+            </th>
+            <th>
+                @Html.ActionLink("Tổng tiền", "Index", new { sortOrder = ViewBag.TongTienSortParm })
+            </th>
+            <th width="8%">
+                Tình trạng thanh toán
+            </th>
+            <th>
+                <p style="text-align:center">Chức năng</p>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TaiKhoan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayTao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Shipname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShipMobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShipAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShipEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TongTien)
+                </td>
+                <td>
+                    @if (item.DaThanhToan == 1)
+                    {
+                        <p style="color:black;">Đã thanh toán</p>
+                    }
+                    else
+                    {
+                        <p style="color:black;">Chưa thanh toán</p>
+                    }
+                </td>
+                <td align="center">
+                    <button class="btn btn-success" onclick="location.href='@Url.Action("Index", "CTDH",  new {  id = item.MaDh })';return false;">Chi tiết</button>&nbsp&nbsp&nbsp&nbsp
+                    <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit",  new { id = item.MaDh })';return false;">Sửa</button>&nbsp&nbsp&nbsp&nbsp
+                    <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete",  new { id = item.MaDh })';return false;">Xóa</button>&nbsp&nbsp&nbsp&nbsp
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) của
+@Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter =
+ViewBag.CurrentFilter
+}))

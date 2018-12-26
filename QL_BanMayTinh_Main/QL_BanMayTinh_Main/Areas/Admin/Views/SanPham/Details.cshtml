@@ -1,0 +1,83 @@
+﻿@model QL_BanMayTinh_Main.EF.Sanpham
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chi tiết</h2>
+
+<div>
+    <h4>Sản phẩm</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MaSp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaSp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TenSp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenSp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaThuongHieu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaThuongHieu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SoLuongTon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuongTon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GiaBanLe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GiaBanLe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.XuatSu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.XuatSu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motakithuat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Motakithuat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hinhanhindex)
+        </dt>
+
+        <dd>
+            <img src=@Html.DisplayFor(model => model.Hinhanhindex) alt="Sample Image" width="150px" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit",  new { id = Model.MaSp })';return false;"><b> Sửa</b></button>&nbsp&nbsp&nbsp&nbsp
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index")';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</p>

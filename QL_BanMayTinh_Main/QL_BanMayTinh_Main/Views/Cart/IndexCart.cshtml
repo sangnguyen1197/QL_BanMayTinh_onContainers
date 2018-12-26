@@ -1,0 +1,106 @@
+﻿@model List<QL_BanMayTinh_Main.Models.CartItemModel>
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dem = 0;
+    decimal tongtien = 0;
+}
+@section jsFooter{
+    <script src="~/js/controller/cartController.js"></script>
+}
+
+<!-- banner-2 -->
+<div class="page-head_agile_info_w3l">
+
+</div>
+<!-- //banner-2 -->
+<!-- page -->
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    <i>|</i>
+                </li>
+                <li>Thanh toán</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- //page -->
+@if (Model != null)
+{
+    <!-- checkout page -->
+    <div class="privacy py-sm-5 py-4">
+        <div class="container py-xl-4 py-lg-2">
+            <!-- tittle heading -->
+            <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+                <span>T</span>hanh toán giỏ hàng
+            </h3>
+            <!-- //tittle heading -->
+            <div class="checkout-right">
+                <h4 class="mb-sm-4 mb-3">
+                    Giỏ hàng của bạn gồm :
+                    <span>@Model.Count() sản phẩm</span>
+                </h4>
+                <div class="table-responsive">
+                    <table class="timetable_sub">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Tên sản phẩm</th>
+
+                                <th>Giá</th>
+                                <th>Thành tiền</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var sp in Model)
+                            {
+                                dem++;
+                                var rem = "rem" + @dem;
+                                var close = "close" + @dem;
+                                decimal tien = sp.sanpham.GiaBanLe * sp.soluong;
+                                tongtien = tongtien + tien;
+                                <tr class="@rem">
+                                    <td class="invert">@dem</td>
+                                    <td class="invert-image">
+                                        <a href="@Url.Action("Details", "Product", new { id = sp.sanpham.MaSp })">
+                                            <img src="@sp.sanpham.Hinhanhindex" alt=" " class="img-responsive">
+                                        </a>
+                                    </td>
+                                    <td class="invert">
+                                        <input type="text" class="txtQuantity" data-id="@sp.sanpham.MaSp" value="@sp.soluong" />
+                                    </td>
+                                    <td class="invert">@sp.sanpham.TenSp</td>
+                                    <td class="invert">@sp.sanpham.GiaBanLe.ToString("#,##0") VNĐ</td>
+                                    <td class="invert">@tien.ToString("#,##0") VNĐ</td>
+                                    <td class="invert">
+                                        <a href="#" data-id="@sp.sanpham.MaSp" class="btn-delete">Xóa</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button id="btnContinue" class="btn">Tiếp tục mua hàng</button>
+            <button id="btnUpdate" class="btn btn-primary">Cập nhật giỏ hàng</button>
+            <button id="btnDeleteAll" class="btn btn-danger">Xóa giỏ hàng</button>
+            <button id="btnPayment" class="btn btn-success">Thanh toán</button>
+
+            <h1 style="text-align:right"> Tổng tiền: @tongtien.ToString("#,##0") VNĐ</h1>
+        </div>
+    </div>
+    <!-- //checkout page -->
+}
+else
+{
+    <div class="container">
+        <p style="color:darkblue; font-size:40px;">Không có sản phẩm nào trong giỏ hàng</p>
+    </div>
+}

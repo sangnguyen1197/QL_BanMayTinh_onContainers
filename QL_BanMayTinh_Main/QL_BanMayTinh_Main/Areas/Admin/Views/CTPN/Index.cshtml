@@ -1,0 +1,139 @@
+﻿@model X.PagedList.IPagedList<QL_BanMayTinh_Main.EF.Chitietphieunhap>
+@using X.PagedList.Mvc.Core;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Thông tin chi tiết phiếu nhập hàng: @ViewBag.MaPN</h2>
+<h3><b>Tổng tiền phiếu nhập:</b> <b style="color:red">@ViewBag.TongTienPN.ToString("N0") VNĐ</b></h3>
+<br />
+
+<br />
+@using (Html.BeginForm("Index", "CTPN", FormMethod.Get))
+{
+    <p>
+        Nhập sản phẩm cần tìm: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <button type="submit"><i class="fa fa-search"></i></button>
+    </p>
+    <br />
+}
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Successfully create")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Thêm thông tin sản phẩm: @TempData["tensp"] với mã số <b style="color:red"> @TempData["masp"] </b> thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully edit")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Sửa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sản phẩm @TempData["masp"]  thành công
+        </div>
+    }
+    else
+    if (TempData["notice"].ToString() == "Successfully delete")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Xóa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sản phẩm @TempData["masp"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Have result")
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "No result")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+    else if (TempData["ErrorSLTon"].ToString() == "errorslt")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Xóa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sản phẩm @TempData["masp"] không thành công</strong>
+        </div>
+    }
+}
+
+
+<p>
+    <button class="btn btn-info" onclick="location.href='@Url.Action("Create", new { id = @ViewBag.MaPN })';return false;">Tạo mới</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-warning" onclick="location.href='@Url.Action("Index")';return false;">Tải lại</button>
+</p>
+
+<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+        <tr>
+            <th>
+                Mã sản phẩm
+            </th>
+            <th>
+                Tên sản phẩm
+            </th>
+            <th>
+                Hình ảnh
+            </th>
+            <th>
+                @Html.ActionLink("Số lượng nhập", "Index", new { sortOrder = ViewBag.SoLuongSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Thành tiền", "Index", new { sortOrder = ViewBag.ThanhTienSortParm })
+            </th>
+            <th>
+                <p style="text-align:center">Chức năng</p>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaSp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaSpNavigation.TenSp)
+            </td>
+            <td>
+                <img src=@Html.DisplayFor(modelItem => item.MaSpNavigation.Hinhanhindex) alt="Sample Image" width="50px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThanhTien)
+            </td>
+            <td align="center">
+                <button class="btn btn-success" onclick="location.href='@Url.Action("Details",  new { mapn = item.MaPn, masp= item.MaSp })';return false;">Xem</button>&nbsp&nbsp&nbsp&nbsp
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("Edit",  new { mapn = item.MaPn, masp= item.MaSp })';return false;">Sửa</button>&nbsp&nbsp&nbsp&nbsp
+                <button class="btn btn-danger" onclick="location.href='@Url.Action("Delete",  new { mapn = item.MaPn, masp= item.MaSp })';return false;">Xóa</button>&nbsp&nbsp&nbsp&nbsp
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) của
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter = ViewBag.CurrentFilter
+}))
+
+<div>
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index", "PhieuNhap")';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</div>
+<br />

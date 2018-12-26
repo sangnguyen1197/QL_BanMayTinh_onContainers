@@ -1,0 +1,171 @@
+networks:
+  default:
+    external:
+      name: nat
+services:
+  donhang.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/DonHang.API/DonHang.API/Dockerfile
+      target: base
+    depends_on:
+    - sql.data
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_DonHang;User
+        Id=sa;Password=Password1
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+      NUGET_PACKAGES: C:\.nuget\packages
+    image: donhangapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages  bin\Debug\netcoreapp2.1\DonHang.API.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - published: 8003
+      target: 80
+    restart: on-failure
+    volumes:
+    - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\DonHang.API\DonHang.API:C:\app:rw
+    - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+    - C:\Users\nguye\.nuget\packages:c:\.nuget\packages:ro
+  khachhang.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/KhachHang.API/KhachHang.API/Dockerfile
+      target: base
+    depends_on:
+    - sql.data
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_KhachHang;User
+        Id=sa;Password=Password1
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+      NUGET_PACKAGES: C:\.nuget\packages
+    image: khachhangapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages  bin\Debug\netcoreapp2.1\KhachHang.API.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - published: 8001
+      target: 80
+    restart: on-failure
+    volumes:
+    - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\KhachHang.API\KhachHang.API:C:\app:rw
+    - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+    - C:\Users\nguye\.nuget\packages:c:\.nuget\packages:ro
+  phieunhap.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/PhieuNhap.API/PhieuNhap.API/Dockerfile
+      target: base
+    depends_on:
+    - sql.data
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_PhieuNhap;User
+        Id=sa;Password=Password1
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+      NUGET_PACKAGES: C:\.nuget\packages
+    image: phieunhapapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages  bin\Debug\netcoreapp2.1\PhieuNhap.API.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - published: 8004
+      target: 80
+    restart: on-failure
+    volumes:
+    - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\PhieuNhap.API\PhieuNhap.API:C:\app:rw
+    - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+    - C:\Users\nguye\.nuget\packages:c:\.nuget\packages:ro
+  ql_banmaytinh_main:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: QL_BanMayTinh_Main\Dockerfile
+      target: base
+    depends_on:
+    - donhang.api
+    - khachhang.api
+    - phieunhap.api
+    - sanpham.api
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      DonHangUrl: http://donhang.api
+      KhachHangUrl: http://khachhang.api
+      NUGET_FALLBACK_PACKAGES: ''
+      NUGET_PACKAGES: C:\.nuget\packages
+      PhieuNhapUrl: http://phieunhap.api
+      SanPhamUrl: http://sanpham.api
+    image: qlbanmaytinhmain:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages  bin\Debug\netcoreapp2.1\QL_BanMayTinh_Main.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - published: 8000
+      target: 80
+    - target: 80
+    restart: on-failure
+    volumes:
+    - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main\QL_BanMayTinh_Main:C:\app:rw
+    - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+    - C:\Users\nguye\.nuget\packages:c:\.nuget\packages:ro
+  sanpham.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/SanPham.API/SanPham.API/Dockerfile
+      target: base
+    depends_on:
+    - sql.data
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus
+      /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_SanPham;User
+        Id=sa;Password=Password1
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+      NUGET_PACKAGES: C:\.nuget\packages
+    image: sanphamapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath c:\.nuget\packages  bin\Debug\netcoreapp2.1\SanPham.API.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: C:\remote_debugger\x64\utils\KillProcess.exe
+        dotnet.exe
+      com.microsoft.visualstudio.debuggee.program: '"C:\Program Files\dotnet\dotnet.exe"'
+      com.microsoft.visualstudio.debuggee.workingdirectory: C:\app
+    ports:
+    - published: 8002
+      target: 80
+    restart: on-failure
+    volumes:
+    - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\SanPham.API\SanPham.API:C:\app:rw
+    - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+    - C:\Users\nguye\.nuget\packages:c:\.nuget\packages:ro
+  sql.data:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Password1
+    image: microsoft/mssql-server-windows-express
+    ports:
+    - published: 1433
+      target: 1433
+version: '3.4'

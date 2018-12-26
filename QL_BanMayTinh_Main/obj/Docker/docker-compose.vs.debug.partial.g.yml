@@ -1,0 +1,101 @@
+version: '3.4'
+
+services:
+  donhang.api:
+    image: donhangapi:dev
+    build:
+      target: base
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - NUGET_PACKAGES=C:\.nuget\packages
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\DonHang.API\DonHang.API:C:\app
+      - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+      - C:\Users\nguye\.nuget\packages\:c:\.nuget\packages:ro
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath c:\\.nuget\\packages  bin\\Debug\\netcoreapp2.1\\DonHang.API.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
+
+  khachhang.api:
+    image: khachhangapi:dev
+    build:
+      target: base
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - NUGET_PACKAGES=C:\.nuget\packages
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\KhachHang.API\KhachHang.API:C:\app
+      - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+      - C:\Users\nguye\.nuget\packages\:c:\.nuget\packages:ro
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath c:\\.nuget\\packages  bin\\Debug\\netcoreapp2.1\\KhachHang.API.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
+
+
+  phieunhap.api:
+    image: phieunhapapi:dev
+    build:
+      target: base
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - NUGET_PACKAGES=C:\.nuget\packages
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\PhieuNhap.API\PhieuNhap.API:C:\app
+      - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+      - C:\Users\nguye\.nuget\packages\:c:\.nuget\packages:ro
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath c:\\.nuget\\packages  bin\\Debug\\netcoreapp2.1\\PhieuNhap.API.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
+
+
+  ql_banmaytinh_main:
+    image: qlbanmaytinhmain:dev
+    build:
+      target: base
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - NUGET_PACKAGES=C:\.nuget\packages
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main\QL_BanMayTinh_Main:C:\app
+      - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+      - C:\Users\nguye\.nuget\packages\:c:\.nuget\packages:ro
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath c:\\.nuget\\packages  bin\\Debug\\netcoreapp2.1\\QL_BanMayTinh_Main.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
+
+
+  sanpham.api:
+    image: sanphamapi:dev
+    build:
+      target: base
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - NUGET_PACKAGES=C:\.nuget\packages
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\Services\SanPham.API\SanPham.API:C:\app
+      - C:\Users\nguye\onecoremsvsmon\15.0.28010.2016:C:\remote_debugger:ro
+      - C:\Users\nguye\.nuget\packages\:c:\.nuget\packages:ro
+    entrypoint: C:\\remote_debugger\\x64\\msvsmon.exe /noauth /anyuser /silent /nostatus /noclrwarn /nosecuritywarn /nofirewallwarn /nowowwarn /timeout:2147483646
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "\"C:\\Program Files\\dotnet\\dotnet.exe\""
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath c:\\.nuget\\packages  bin\\Debug\\netcoreapp2.1\\SanPham.API.dll"
+      com.microsoft.visualstudio.debuggee.workingdirectory: "C:\\app"
+      com.microsoft.visualstudio.debuggee.killprogram: "C:\\remote_debugger\\x64\\utils\\KillProcess.exe dotnet.exe"
+

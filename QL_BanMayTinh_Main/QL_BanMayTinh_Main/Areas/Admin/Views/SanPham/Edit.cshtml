@@ -1,0 +1,141 @@
+﻿@model QL_BanMayTinh_Main.EF.Sanpham
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chỉnh sửa</h2>
+@section Scripts
+    {
+    <script type="text/javascript">
+
+        function getImagePath(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                var _choose_path = document.getElementById("upload1").value;
+                var filepath = "/products" + _choose_path.replace("C:\\fakepath\\", "/");
+                document.getElementById("textfile1").value = filepath;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgDisplay')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(150);
+                };
+                var _choose_path = document.getElementById("upload2").value;
+                var filepath = "/products" + _choose_path.replace("C:\\fakepath\\", "/");
+                document.getElementById("textfile2").value = filepath;
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+}
+
+@using (Html.BeginForm("Edit", "SanPham", FormMethod.Post, new { @class = "cmxform form-horizontal", @id = "signupForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Sản phẩm</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaSp)
+        @Html.HiddenFor(model => model.SoLuongTon)
+        @Html.HiddenFor(model => model.Hinhanh)
+        @Html.HiddenFor(model => model.TrangThai)
+        @Html.Hidden("size", "155")
+        @Html.Hidden("sizedetail", "800")
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSp, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaSp, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.MaSp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenSp, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenSp, new { htmlAttributes = new { @class = "form-control", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.TenSp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaThuongHieu, "Thương hiệu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MaThuongHieu", null, htmlAttributes: new { @class = "form-control", @style = "width:50%" })
+                @Html.ValidationMessageFor(model => model.MaThuongHieu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GiaBanLe, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GiaBanLe, new { htmlAttributes = new { @class = "form-control", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.GiaBanLe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.XuatSu, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.XuatSu, new { htmlAttributes = new { @class = "form-control", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.XuatSu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Motakithuat, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Motakithuat, new { htmlAttributes = new { @class = "form-control", @style = "width:50%" } })
+                @Html.ValidationMessageFor(model => model.Motakithuat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hinhanh, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hinhanh, new { htmlAttributes = new { @class = "form-control", @id = "textfile1", @readonly = "readonly", @style = "width:50%" } })
+                <br />
+                <input type="file" name="file" id="upload1" onchange="getImagePath(this);" />
+                @Html.ValidationMessageFor(model => model.Hinhanh, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hinhanhindex, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Hinhanhindex, new { htmlAttributes = new { @class = "form-control", @id = "textfile2", @readonly = "readonly", @style = "width:50%" } })
+                <br />
+                <input type="file" name="file" id="upload2" onchange="readURL(this);" />
+                @Html.ValidationMessageFor(model => model.Hinhanhindex, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <img src=@Html.DisplayFor(model => model.Hinhanhindex) alt="Sample Image" width="155px" style="margin-left:17%" id="imgDisplay" />
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index")';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</div>
+<br />

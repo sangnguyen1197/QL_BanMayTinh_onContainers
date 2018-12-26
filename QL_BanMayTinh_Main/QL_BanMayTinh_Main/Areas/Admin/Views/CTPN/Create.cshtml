@@ -1,0 +1,145 @@
+﻿@model QL_BanMayTinh_Main.EF.Chitietphieunhap
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+    {
+    <script type="text/javascript">
+
+        var slt = @TempData["sltmacdinh"];
+
+        function changecost_giabanle() {
+            var changemasp = document.getElementById('masp').value;
+            var mapn = document.getElementById("mapn").value;
+            var data= {
+                    masp: changemasp,
+                    mapn: mapn
+            };
+            $.ajax({
+                url: '/Admin/CTPN/GetInfo',
+                type: 'GET',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    document.getElementById('giabanle').value = data.giabanle;
+                    document.getElementById("thanhtien").value = parseInt(document.getElementById("giabanle").value) * parseInt(document.getElementById("soluongnhap").value);
+
+                    var slnhap = document.getElementById('soluongnhap').value;
+                    if (!slnhap) slnhap = 0;
+                    document.getElementById('slt').value = parseInt(data.slt) + parseInt(slnhap);
+                    slt = parseInt(data.slt) + parseInt(slnhap);
+
+
+                    if (data.checkSP > 0) {
+                        document.getElementById("error").style.display = "block";
+                        document.getElementById("error").innerText = "Sản phẩm " + data.tensp + " với mã số: " + changemasp + " đã tồn tại!";
+                        document.getElementById("sub").style.display = "none";
+
+                       if (document.getElementById("error2").style.display == "block") document.getElementById("error2").style.display = "none";
+                    }
+                    else {
+                        document.getElementById("error").style.display = "none";
+                        document.getElementById("sub").style.display = "block";
+
+                       document.getElementById("error2").style.display = "none";
+                    }
+                }
+            });
+        }
+
+        function changecost_soluongton() {
+            var slnhap = document.getElementById('soluongnhap').value;
+
+            if (!slnhap) slnhap = 0;
+            document.getElementById("thanhtien").value = parseInt(document.getElementById("giabanle").value) * parseInt(slnhap);
+            document.getElementById("slt").value = parseInt(slnhap) + parseInt(slt);
+        }
+
+    </script>
+}
+
+<h2>Tạo mới</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Chi tiết phiếu nhập</h4>
+        <hr />
+        @if (TempData["trungmasp"] != null)
+        {
+            if (TempData["trungmasp"].ToString() == "trungmasp")
+            {
+                <div class="alert alert-danger" role="alert" id="error2" style="display:block">
+                    <strong>Sản phẩm @TempData["tensperror"] với mã số @TempData["masperror"] đã tồn tại!</strong>
+                </div>
+            }
+        }
+        <div id="error" style="display:none" class="alert alert-danger" role="alert">
+            <strong> </strong>
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaPn, "Mã phiếu nhập", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaPn, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "mapn" } })
+                @Html.ValidationMessageFor(model => model.MaPn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSp, "Tên sản phẩm", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("MaSP", null, htmlAttributes: new { @class = "form-control", @style = "width:40%", @id = "masp", @onchange = "changecost_giabanle()" })
+                @Html.ValidationMessageFor(model => model.MaSp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSpNavigation.SoLuongTon, "SL tồn trong kho", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("sltmacdinh", new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "slt" } })
+                @Html.ValidationMessageFor(model => model.MaSpNavigation.SoLuongTon, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSpNavigation.GiaBanLe, "Đơn giá bán lẻ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("giamacdinh", new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "giabanle" } })
+                @Html.ValidationMessageFor(model => model.MaSpNavigation.GiaBanLe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SoLuongNhap, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SoLuongNhap, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @id = "soluongnhap", @oninput = "changecost_soluongton()" } })
+                @Html.ValidationMessageFor(model => model.SoLuongNhap, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ThanhTien, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ThanhTien, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "thanhtien" } })
+                @Html.ValidationMessageFor(model => model.ThanhTien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo" class="btn btn-info" id="sub" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index", new { id = Model.MaPn })';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</div>
+<br />

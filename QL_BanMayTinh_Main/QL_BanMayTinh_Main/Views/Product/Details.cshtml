@@ -1,0 +1,110 @@
+﻿@model QL_BanMayTinh_Main.EF.Sanpham
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var arrListStr = (string[])Model.Motakithuat.Split('*');
+}
+@section jsFooter{
+    <script src="/js/controller/Themgiohang.js"></script>
+}
+
+<!-- banner-2 -->
+<div class="page-head_agile_info_w3l">
+
+</div>
+<!-- //banner-2 -->
+<!-- page -->
+<div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+        <div class="container">
+            <ul class="w3_short">
+                <li>
+                    <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                    <i>|</i>
+                </li>
+                <li>@Model.TenSp</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- //page -->
+<!-- Single Page -->
+<div class="banner-bootom-w3-agileits py-5">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+            <span>T</span>hông tin
+            <span>S</span>ản phẩm
+        </h3>
+        <!-- //tittle heading -->
+        <div class="row">
+            <div class="col-lg-5 col-md-8 single-right-left ">
+                <div class="grid images_3_of_2">
+                    <div class="flexslider">
+                        <ul class="slides">
+                            <li data-thumb="@Model.Hinhanh">
+                                <div class="thumb-image">
+                                    <img src="@Model.Hinhanh" data-imagezoom="true" class="img-fluid" alt="">
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 single-right-left simpleCart_shelfItem">
+                <h3 class="mb-3">@Model.TenSp</h3>
+                <p class="mb-3">
+                    <span class="item_price">@Model.GiaBanLe.ToString("#,##0") VNĐ</span>
+                    <label>Giao hàng miễn phí</label>
+                </p>
+                <div class="single-infoagile">
+                    <ul>
+                        <li class="mb-3">
+                            Thanh toán khi nhận hàng.
+                        </li>
+                        <li class="mb-3">
+                            Shipping tốc độ cao.
+                        </li>
+                        <li class="mb-3">
+                            Xuất xử ở @Model.XuatSu.
+                        </li>
+                        <li class="mb-3">
+                            Số lượng còn lại:
+                            <span class="item_price">@Model.SoLuongTon</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="product-single-w3l">
+                    <p class="my-3">
+                        <i class="far fa-hand-point-right mr-2"></i>
+                        Bảo hành <label>1 năm</label> chính hãng
+                    </p>
+                    <ul>
+                        @foreach (string a in arrListStr)
+                        {
+                            var mota = a;
+                            <li class="mb-1">
+                                @mota
+                            </li>
+                        }
+                    </ul>
+                    <p class="my-sm-4 my-3">
+                        <i class="fas fa-retweet mr-3"></i>Cho phép thanh toán bằng thẻ nội địa, VISA, MasterCard
+                    </p>
+                </div>
+                <div class="occasion-cart">
+                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                        <form method="post">
+                            <fieldset>
+                                <input type="button" onclick="them('@Model.MaSp')" value="Thêm vào giỏ" class="button btn" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //Single Page -->

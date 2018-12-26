@@ -1,0 +1,54 @@
+﻿@model QL_BanMayTinh_Main.Areas.Admin.Models.ThongKeModel
+
+@{
+    ViewData["Title"] = "thongkedoanhthu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div id="columnchart"></div>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            ['Tháng', 'Doanh thu'],
+            ["Tháng " + "@Model.mangthang[0]", { v: @Convert.ToInt32(Model.tongtientheothang[0])}],
+            ["Tháng " + "@Model.mangthang[1]", { v: @Convert.ToInt32(Model.tongtientheothang[1])}],
+            ["Tháng " + "@Model.mangthang[2]", { v: @Convert.ToInt32(Model.tongtientheothang[2])}],
+            ["Tháng " + "@Model.mangthang[3]", { v: @Convert.ToInt32(Model.tongtientheothang[3])}],
+            ["Tháng " + "@Model.mangthang[4]", { v: @Convert.ToInt32(Model.tongtientheothang[4])}],
+            ["Tháng " + "@Model.mangthang[5]", { v: @Convert.ToInt32(Model.tongtientheothang[5])}],
+            ["Tháng " + "@Model.mangthang[6]", { v: @Convert.ToInt32(Model.tongtientheothang[6])}],
+            ["Tháng " + "@Model.mangthang[7]", { v: @Convert.ToInt32(Model.tongtientheothang[7])}],
+            ["Tháng " + "@Model.mangthang[8]", { v: @Convert.ToInt32(Model.tongtientheothang[8])}],
+            ["Tháng " + "@Model.mangthang[9]", { v: @Convert.ToInt32(Model.tongtientheothang[9])}],
+            ["Tháng " + "@Model.mangthang[10]", { v: @Convert.ToInt32(Model.tongtientheothang[10])}],
+            ["Tháng " + "@Model.mangthang[11]", { v: @Convert.ToInt32(Model.tongtientheothang[11])}]
+
+        ],
+            false); // 'false' means that the first row contains labels, not data.
+
+
+
+
+
+        // Optional; add a title and set the width and height of the chart
+        var options = { 'title': 'Doanh thu theo từng tháng', 'width': 1000, 'height': 400 };
+
+        // Display the chart inside the <div> element with id="piechart"
+
+
+        var chart3 = new google.visualization.ColumnChart(document.getElementById('columnchart'));
+
+
+        chart3.draw(data, options);
+    }
+</script>

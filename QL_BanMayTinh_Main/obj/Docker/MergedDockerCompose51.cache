@@ -1,0 +1,91 @@
+networks:
+  default:
+    external:
+      name: nat
+services:
+  donhang.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/DonHang.API/DonHang.API/Dockerfile
+    depends_on:
+    - sql.data
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_DonHang;User
+        Id=sa;Password=Password1
+    image: donhangapi
+    ports:
+    - published: 8003
+      target: 80
+    restart: on-failure
+  khachhang.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/KhachHang.API/KhachHang.API/Dockerfile
+    depends_on:
+    - sql.data
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_KhachHang;User
+        Id=sa;Password=Password1
+    image: khachhangapi
+    ports:
+    - published: 8001
+      target: 80
+    restart: on-failure
+  phieunhap.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/PhieuNhap.API/PhieuNhap.API/Dockerfile
+    depends_on:
+    - sql.data
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_PhieuNhap;User
+        Id=sa;Password=Password1
+    image: phieunhapapi
+    ports:
+    - published: 8004
+      target: 80
+    restart: on-failure
+  ql_banmaytinh_main:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: QL_BanMayTinh_Main\Dockerfile
+    depends_on:
+    - donhang.api
+    - khachhang.api
+    - phieunhap.api
+    - sanpham.api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DonHangUrl: http://donhang.api
+      KhachHangUrl: http://khachhang.api
+      PhieuNhapUrl: http://phieunhap.api
+      SanPhamUrl: http://sanpham.api
+    image: qlbanmaytinhmain
+    ports:
+    - published: 8000
+      target: 80
+    - target: 80
+    restart: on-failure
+  sanpham.api:
+    build:
+      context: D:\Documents\4th Year\1st Semester\Open-sourced Apps\Project\QL_BanMayTinh\QL_BanMayTinh_Main
+      dockerfile: ../Services/SanPham.API/SanPham.API/Dockerfile
+    depends_on:
+    - sql.data
+    environment:
+      ConnectionString: Server=sql.data;Initial Catalog=QL_BANMAYTINH_SanPham;User
+        Id=sa;Password=Password1
+    image: sanphamapi
+    ports:
+    - published: 8002
+      target: 80
+    restart: on-failure
+  sql.data:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Password1
+    image: microsoft/mssql-server-windows-express
+    ports:
+    - published: 1433
+      target: 1433
+version: '3.4'

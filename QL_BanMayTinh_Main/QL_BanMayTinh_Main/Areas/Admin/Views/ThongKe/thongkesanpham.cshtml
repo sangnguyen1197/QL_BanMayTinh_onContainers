@@ -1,0 +1,45 @@
+﻿@model List<QL_BanMayTinh_Main.Areas.Admin.Models.SanphambanchayModel>
+
+@{
+    ViewData["Title"] = "thongkesanpham";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div id="piechart"></div>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            ['Sản phẩm', 'Số lượng bán'],
+            ["@Html.Raw(@Model[0].TenSP)", { v: @Model[0].SoLuongBan}],
+            ["@Html.Raw(@Model[1].TenSP)", { v: @Model[1].SoLuongBan}],
+            ["@Html.Raw(@Model[2].TenSP)", { v: @Model[2].SoLuongBan}]
+            
+        ],
+            false); // 'false' means that the first row contains labels, not data.
+
+
+
+
+
+        // Optional; add a title and set the width and height of the chart
+        var options = { 'title': 'Top 3 Sản phẩm bán chạy tháng 3', 'width': 1200, 'height': 400 };
+
+        // Display the chart inside the <div> element with id="piechart"
+
+
+        var chart3 = new google.visualization.PieChart(document.getElementById('piechart'));
+
+
+        chart3.draw(data, options);
+    }
+</script>

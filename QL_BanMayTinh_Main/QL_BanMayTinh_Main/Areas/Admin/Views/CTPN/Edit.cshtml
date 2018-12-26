@@ -1,0 +1,104 @@
+﻿@model QL_BanMayTinh_Main.EF.Chitietphieunhap
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+    {
+    <script type="text/javascript">
+        var slt = parseInt(document.getElementById("slt").value);
+
+        function changecost() {
+            document.getElementById("thanhtien").value = @Convert.ToInt32(ViewBag.TienSP) * parseInt(document.getElementById("soluong").value);
+            document.getElementById("slt").value = slt - @ViewBag.SoLuongSPCu + parseInt(document.getElementById("soluong").value);
+            if (document.getElementById("slt").value < 0) {
+                document.getElementById("info").style.display = "block";
+                document.getElementById("sm").style.display = "none";
+            }
+            else {
+                document.getElementById("info").style.display = "none";
+                document.getElementById("sm").style.display = "block";
+            }
+        }
+    </script>
+}
+
+<h2>Chỉnh sửa</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Chi tiết phiếu nhập</h4>
+        <hr />
+
+        <div class="alert alert-danger" role="alert" style="display:none" id="info">
+            <strong>Số lượng tồn trong kho không đủ</strong>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MaPn)
+        @Html.HiddenFor(model => model.MaSp)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSp, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaSp, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.MaSp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSpNavigation.TenSp, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaSpNavigation.TenSp, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.MaSpNavigation.TenSp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSpNavigation.SoLuongTon, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaSpNavigation.SoLuongTon, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "slt" } })
+                @Html.ValidationMessageFor(model => model.MaSpNavigation.SoLuongTon, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaSpNavigation.GiaBanLe, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaSpNavigation.GiaBanLe, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "slt" } })
+                @Html.ValidationMessageFor(model => model.MaSpNavigation.GiaBanLe, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SoLuongNhap, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SoLuongNhap, new { htmlAttributes = new { @class = "form-control", @id = "soluong", @style = "width:40%", @oninput = "changecost()" } })
+                @Html.ValidationMessageFor(model => model.SoLuongNhap, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ThanhTien, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ThanhTien, new { htmlAttributes = new { @class = "form-control", @style = "width:40%", @readonly = "readonly", @id = "thanhtien" } })
+                @Html.ValidationMessageFor(model => model.ThanhTien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-primary" id="sm" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index", new { id = Model.MaPn })';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</div>
+<br />

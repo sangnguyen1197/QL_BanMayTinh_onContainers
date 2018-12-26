@@ -1,0 +1,43 @@
+﻿@model QL_BanMayTinh_Main.Models.LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content" style="border-color: lightgray">
+        <div class="modal-header">
+            <h5 class="modal-title text-center">Đăng nhập</h5>
+        </div>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">@Html.ValidationSummary(false)</div>
+            <br />
+        }
+        <div class="modal-body">
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label asp-for="username" class="control-label"></label>
+                    <input asp-for="username" class="form-control" required />
+                    <span asp-validation-for="username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="password" class="control-label"></label>
+                    <input asp-for="password" type="password" class="form-control" required />
+                    <span asp-validation-for="password" class="text-danger"></span>
+                </div>
+                <div class="right-w3l">
+                    <input type="submit" class="form-control" value="Đăng nhập">
+                </div>
+                <p class="text-center dont-do mt-3">
+                    Bạn chưa có tài khoản?
+                    <a href="@Url.Action("Register", "User")">
+                        Đăng ký tài khoản
+                    </a>
+                </p>
+            }
+        </div>
+    </div>
+</div>

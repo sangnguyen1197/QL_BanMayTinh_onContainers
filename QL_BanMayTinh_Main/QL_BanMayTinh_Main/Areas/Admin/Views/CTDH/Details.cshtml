@@ -1,0 +1,74 @@
+﻿@model QL_BanMayTinh_Main.EF.Chitietdonhang
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xem</h2>
+
+<div>
+    <h4>Chi tiết đơn hàng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Mã sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaSpNavigation.MaSp)
+        </dd>
+
+        <dt>
+            Tên sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaSpNavigation.TenSp)
+        </dd>
+
+        <dt>
+            Số lượng tồn
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaSpNavigation.SoLuongTon)
+        </dd>
+
+        <dt>
+            Giá bán lẻ sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaSpNavigation.GiaBanLe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaSpNavigation.Hinhanhindex)
+        </dt>
+
+        <dd>
+            <img src=@Html.DisplayFor(model => model.MaSpNavigation.Hinhanhindex) alt="Sample Image" width="150px" />
+        </dd>
+
+        <dt>
+            Số lượng mua
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+
+        <dt>
+            Thành tiền
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThanhTien)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <button class="btn btn-default" onclick="location.href='@Url.Action("Index", new { id = Model.MaDh })';return false;"><b>Trở lại</b></button>&nbsp&nbsp&nbsp&nbsp
+</p>
